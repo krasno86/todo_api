@@ -17,9 +17,13 @@ RSpec.describe User, type: :model do
     it { expect validate_presence_of(:username) }
   end
 
+  context 'basic validation uniques' do
+    it { expect validate_uniqueness_of(:username) }
+  end
+
   describe 'validation' do
     let(:user)         { FactoryBot.build(:user) }
-    let(:invalid_user) { FactoryBot.build(:user, username: nil) }
+    let(:invalid_user) { FactoryBot.build(:user, username: 'sd') }
 
     it { expect(user).to be_valid }
     it { expect(invalid_user).not_to be_valid }
