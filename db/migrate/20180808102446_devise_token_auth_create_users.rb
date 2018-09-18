@@ -2,7 +2,7 @@ class DeviseTokenAuthCreateUsers < ActiveRecord::Migration[5.1]
   def change
     create_table(:users) do |t|
       ## Required
-      t.string :username, :null => false, :default => ""
+      t.string :provider, :null => false, :default => "username"
       t.string :uid, :null => false, :default => ""
 
       ## Database authenticatable
@@ -42,7 +42,8 @@ class DeviseTokenAuthCreateUsers < ActiveRecord::Migration[5.1]
       t.timestamps
     end
 
-    add_index :users, [:uid, :username],     unique: true
+    add_index :users, :username,             unique: true
+    add_index :users, [:uid, :provider],     unique: true
     add_index :users, :reset_password_token, unique: true
     add_index :users, :confirmation_token,   unique: true
     # add_index :users, :unlock_token,       unique: true
