@@ -5,7 +5,7 @@ module Api::V1
     include DeviseTokenAuth::Concerns::SetUserByToken
 
     before_action :authenticate_user!
-    before_action :set_todo, only: [:show, :update, :destroy]
+    before_action :set_project, only: [:show, :update, :destroy]
 
     def index
       @projects = Project.order("created_at DESC")
