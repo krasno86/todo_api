@@ -9,27 +9,29 @@ module Api::V1
 
     def index
       @projects = Project.order("created_at DESC")
-      render json: @projects
+      render json: @projects, status: 200
+    end
+
+    def show
+      render json: @projects, status: 200
     end
 
     def create
-      @project = Project.new(project_params)
-      if @project.save
-        # render json: @project, status: 201
-        render json: ProjectSerializer.new(@project).serialized_json, status: 201
+      @project = current_user.projects.new(project_params)
+      if @project.save!
+        render json: @project, status: 201
+        # render json: ProjectSerializer.new(@project).serialized_json, status: 201
       else
         render json: @project.errors.messages, status: 422
       end
     end
 
     def update
-      @project = Project.find(params[:id])
       @project.update_attributes(project_params)
       render json: @project
     end
 
     def destroy
-      @project = Project.find(params[:id])
       if @project.destroy
         head :no_content, status: :ok
       else
@@ -40,7 +42,7 @@ module Api::V1
     private
 
     def project_params
-      params.require(:project).permit(:title)
+      params.require(:project).permit(:name)
     end
 
     def set_project
