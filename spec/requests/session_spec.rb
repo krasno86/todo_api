@@ -12,7 +12,6 @@ RSpec.describe 'sign_in and sign_out', type: :request do
                  uid: user.uid
              }
       }
-
       it { expect(response).to have_http_status 401 }
     end
 
@@ -24,11 +23,8 @@ RSpec.describe 'sign_in and sign_out', type: :request do
                  password: '12345678'
              }
       }
-
       it 'valid params' do
-        p response.body
         expect(response).to have_http_status 200
-
       end
     end
   end

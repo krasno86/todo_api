@@ -30,7 +30,6 @@ RSpec.describe 'sign_up ', type: :request do
       it 'w34frwefer' do
         p response.body
         expect(response).to have_http_status 200
-
       end
     end
   end
