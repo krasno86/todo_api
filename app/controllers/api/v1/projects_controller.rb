@@ -3,6 +3,7 @@
 module Api::V1
   class ProjectsController < ApplicationController
     include DeviseTokenAuth::Concerns::SetUserByToken
+    include Swagger::Blocks
 
     before_action :authenticate_user!
     before_action :set_project, only: [:show, :update, :destroy]
