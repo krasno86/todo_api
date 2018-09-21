@@ -1,8 +1,9 @@
 FactoryBot.define do
   factory :user do
     username { Faker::StarWars.character }
-    uid {'egewg5hr'}
+    email { 'test@gmail.com' }
+    uid { 'egewg5hr' }
     password { '12345678' }
-    password_confirmation { |user| user.password }
+    password_confirmation { '12345678' }
   end
 end

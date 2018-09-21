@@ -22,8 +22,8 @@ RSpec.describe User, type: :model do
   end
 
   describe 'validation' do
-    let(:user)         { FactoryBot.build(:user) }
-    let(:invalid_user) { FactoryBot.build(:user, username: 'sd') }
+    let(:user)         { build(:user) }
+    let(:invalid_user) { build(:user, username: 'sd') }
 
     it { expect(user).to be_valid }
     it { expect(invalid_user).not_to be_valid }

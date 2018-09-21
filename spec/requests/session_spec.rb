@@ -20,8 +20,9 @@ RSpec.describe 'sign_in and sign_out', type: :request do
         post '/auth/sign_in',
              params: {
                  username: user.username,
-                 password: '12345678'
-             }
+                 password: '12345678',
+                 uid: user.uid
+             }, headers: user.create_new_auth_token
       }
       it 'valid params' do
         expect(response).to have_http_status 200
@@ -29,4 +30,3 @@ RSpec.describe 'sign_in and sign_out', type: :request do
     end
   end
 end
-
