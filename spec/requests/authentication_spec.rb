@@ -1,6 +1,8 @@
 require 'rails_helper'
 
 RSpec.describe 'sign_up ', type: :request do
+  let(:user) { create(:user) }
+
   describe 'GET /auth' do
     context 'ivalid password lenght' do
       before {
@@ -27,5 +29,10 @@ RSpec.describe 'sign_up ', type: :request do
       }
       it { expect(response).to have_http_status 200 }
     end
+  end
+
+  context 'registrations#destroy' do
+    before { delete '/auth', headers: user.create_new_auth_token }
+    it { expect(response).to have_http_status 200 }
   end
 end

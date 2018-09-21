@@ -12,6 +12,5 @@ class User < ActiveRecord::Base
                                               too_short: "%{count} characters is the minimum allowed",
                                               maximum: 50,
                                               too_long: "%{count} characters is the maximum allowed" }
-  validates :password, confirmation: true, presence: true
-  validates :password_confirmation, presence: true
+
 end
