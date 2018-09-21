@@ -8,10 +8,10 @@ class User < ActiveRecord::Base
   has_many :projects
   has_many :comments
 
-  validates :username, presence: true, length: { minimum: 3,
-                                                 too_short: "%{count} characters is the minimum allowed",
-                                                 maximum: 50,
-                                                 too_long: "%{count} characters is the maximum allowed" }
+  validates :email, presence: true, length: { minimum: 3,
+                                              too_short: "%{count} characters is the minimum allowed",
+                                              maximum: 50,
+                                              too_long: "%{count} characters is the maximum allowed" }
   validates :password, confirmation: true, presence: true
   validates :password_confirmation, presence: true
 end

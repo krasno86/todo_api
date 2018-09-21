@@ -7,7 +7,7 @@ RSpec.describe 'sign_in and sign_out', type: :request do
       before {
         post '/auth/sign_in',
              params: {
-                 username: 'test@example.com',
+                 email: 'test@example.com',
                  password: user.password,
                  uid: user.uid
              }
@@ -19,7 +19,7 @@ RSpec.describe 'sign_in and sign_out', type: :request do
       before {
         post '/auth/sign_in',
              params: {
-                 username: user.username,
+                 email: user.email,
                  password: '12345678'
              }
       }

@@ -23,7 +23,7 @@ RSpec.describe User, type: :model do
 
   describe 'validation' do
     let(:user)         { FactoryBot.build(:user) }
-    let(:invalid_user) { FactoryBot.build(:user, username: 'sd') }
+    let(:invalid_user) { FactoryBot.build(:user, email: 'sd') }
 
     it { expect(user).to be_valid }
     it { expect(invalid_user).not_to be_valid }
