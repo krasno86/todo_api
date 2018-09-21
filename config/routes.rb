@@ -6,7 +6,7 @@ Rails.application.routes.draw do
     namespace :v1 do
       # root to: 'projects#index'
       resources :projects do
-        resources :tasks, only: %i[create update destroy]
+        resources :tasks
       end
     end
   end

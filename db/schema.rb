@@ -39,8 +39,8 @@ ActiveRecord::Schema.define(version: 20180920144159) do
     t.string "text"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.bigint "task_id"
-    t.index ["task_id"], name: "index_tasks_on_task_id"
+    t.bigint "project_id"
+    t.index ["project_id"], name: "index_tasks_on_project_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -73,5 +73,5 @@ ActiveRecord::Schema.define(version: 20180920144159) do
   add_foreign_key "comments", "projects"
   add_foreign_key "comments", "users"
   add_foreign_key "projects", "users"
-  add_foreign_key "tasks", "tasks"
+  add_foreign_key "tasks", "projects"
 end
