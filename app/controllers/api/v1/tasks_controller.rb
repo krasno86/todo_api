@@ -9,8 +9,8 @@ module Api::V1
     before_action :set_project, only: [:index, :create]
 
     def index
-      @task = @project.tasks.order("created_at DESC")
-      render json: @task, status: 200
+      @tasks = @project.tasks.order("created_at DESC")
+      render json: @tasks, status: 200
     end
 
     def show
