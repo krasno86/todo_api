@@ -9,19 +9,19 @@ module Api::V1
     before_action :set_project, only: [:show, :update, :destroy]
 
     def index
-      @projects = Project.order("created_at DESC")
+      @projects = current_user.projects.all.order("created_at DESC")
       render json: @projects, status: 200
+        # render json: ProjectSerializer.new(@projects).serialized_json, status: 200
     end
 
     def show
-      render json: @projects, status: 200
+      render json: ProjectSerializer.new(@project).serialized_json, status: 200
     end
 
     def create
       @project = current_user.projects.new(project_params)
       if @project.save!
-        render json: @project, status: 201
-        # render json: ProjectSerializer.new(@project).serialized_json, status: 201
+        render json: ProjectSerializer.new(@project).serialized_json, status: 201
       else
         render json: @project.errors.messages, status: 422
       end
@@ -29,7 +29,7 @@ module Api::V1
 
     def update
       @project.update_attributes(project_params)
-      render json: @project
+      render json: ProjectSerializer.new(@project).serialized_json
     end
 
     def destroy

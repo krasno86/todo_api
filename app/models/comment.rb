@@ -3,6 +3,8 @@ class Comment < ApplicationRecord
   belongs_to :user, dependent: :destroy
   belongs_to :project, dependent: :destroy
 
+  attr_accessor :id, :name, :file, :user_id
+
   mount_uploader :file, AvatarUploader
 
   validates :text, presence: true, length: { minimum: 10,
