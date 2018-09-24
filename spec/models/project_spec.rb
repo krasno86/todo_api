@@ -16,11 +16,15 @@ RSpec.describe Project, type: :model do
   end
 
   describe 'validation' do
-    # let(:project) { FactoryBot.build(:project) }
-    # let(:user) { FactoryBot.build(:user) }
-    let(:invalid_project) { FactoryBot.build(:project) }
+    let(:user) { build(:user) }
+    let(:project) { build(:project, user: user) }
+    let(:invalid_project) { build(:project, name: '') }
 
-    # it { expect(project).to be_valid }
-    it { expect(invalid_project).not_to be_valid }
+    it do 'with valid params'
+      expect(project).to be_valid
+    end
+    it do 'with blank name'
+      expect(invalid_project).not_to be_valid
+    end
   end
 end

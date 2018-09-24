@@ -5,7 +5,7 @@ RSpec.describe Task, type: :request do
   let(:project) { create(:project, user: user) }
   let(:task)  { create(:task, project: project) }
 
-  describe '/api/v1/projects' do
+  describe '/api/v1/projects/:project_id/tasks' do
     context 'unauthorized user' do
       before { get '/api/v1/projects' }
       it { expect(response).to have_http_status 401 }
@@ -15,12 +15,11 @@ RSpec.describe Task, type: :request do
       before { get "/api/v1/projects/#{project.id}/tasks/#{task.id}", headers: user.create_new_auth_token }
       it { expect(response).to have_http_status 200 }
       it 'show task' do
-        p task
         expect(response[:task])
       end
     end
 
-    context 'get /api/v1/tasks/:id' do
+    context 'get index' do
       before {
         get "/api/v1/projects/#{project.id}/tasks/#{task.id}",
             params: { id: project.id }, headers: user.create_new_auth_token
@@ -44,7 +43,8 @@ RSpec.describe Task, type: :request do
       it { expect(response).to have_http_status 201 }
     end
 
-    context 'DELETE tasks' do
+    context 'DELETE' do
+      # let(:user1) { create(:user, email: 'wgt3wgf@dgd.com') }
       before {
         delete "/api/v1/projects/#{project.id}/tasks/#{task.id}",
                params: { id: task.id }, headers: user.create_new_auth_token
@@ -52,10 +52,10 @@ RSpec.describe Task, type: :request do
       it { expect(response).to have_http_status 204 }
     end
 
-    context 'update task' do
+    context 'update' do
       before {
         put "/api/v1/projects/#{project.id}/tasks/#{task.id}",
-            params: {project: {name: Faker::StarWars.droid} }, headers: user.create_new_auth_token
+            params: {task: {name: Faker::StarWars.droid} }, headers: user.create_new_auth_token
       }
       it { expect(response).to have_http_status 200 }
     end

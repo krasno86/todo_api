@@ -5,12 +5,12 @@ module Api::V1
     include DeviseTokenAuth::Concerns::SetUserByToken
 
     before_action :authenticate_user!
-    before_action :set_task, only: [:show, :update, :destroy]
-    before_action :set_project, only: [:index, :create]
+    before_action :set_task, only: [:show, :update]
+    before_action :set_project, only: [:index, :create, :destroy]
 
     def index
-      @task = @project.tasks.order("created_at DESC")
-      render json: @task, status: 200
+      @tasks = @project.tasks.all.order("created_at DESC")
+      render json: @tasks, status: 200
     end
 
     def show
@@ -28,11 +28,13 @@ module Api::V1
     end
 
     def update
-      @task.update_attributes(task_params)
+      @task.update(task_params)
       render json: @task
     end
 
     def destroy
+      p params
+      p current_user
       if Task.destroy(params[:id])
         head :no_content, status: :ok
       else
@@ -47,7 +49,7 @@ module Api::V1
     end
 
     def set_project
-      @project = Project.find(params[:id])
+      @project = Project.find(params[:project_id])
     end
 
     def set_task

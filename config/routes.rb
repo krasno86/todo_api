@@ -6,9 +6,13 @@ Rails.application.routes.draw do
     namespace :v1 do
       # root to: 'projects#index'
       resources :projects do
-        resources :tasks
+        resources :tasks do
+          resources :comments, only: %i[index create destroy]
+        end
       end
     end
   end
-  resources :apidocs, only: [:index]
+  # resources :apidocs, only: %i[index]
+  get '/apidocs', to: 'apidocs#index'
+  get '/docs' => redirect('swagger-ui/index.html')
 end
