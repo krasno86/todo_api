@@ -44,9 +44,10 @@ RSpec.describe Task, type: :request do
     end
 
     context 'DELETE' do
+      let(:user1) { create(:user, email: 'wgt3wgf@dgd.com') }
       before {
         delete "/api/v1/projects/#{project.id}/tasks/#{task.id}",
-               params: { id: task.id }, headers: user.create_new_auth_token
+               params: { id: task.id }, headers: user1.create_new_auth_token
       }
       it { expect(response).to have_http_status 204 }
     end
@@ -54,7 +55,7 @@ RSpec.describe Task, type: :request do
     context 'update' do
       before {
         put "/api/v1/projects/#{project.id}/tasks/#{task.id}",
-            params: {project: {name: Faker::StarWars.droid} }, headers: user.create_new_auth_token
+            params: {task: {name: Faker::StarWars.droid} }, headers: user.create_new_auth_token
       }
       it { expect(response).to have_http_status 200 }
     end
