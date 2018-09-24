@@ -5,12 +5,10 @@ class ApidocsController < ActionController::Base
     key :swagger, '2.0'
     info do
       key :version, '1.0.0'
-      key :title, 'Swagger Petstore'
-      key :description, 'A sample API that uses a petstore as an example to ' \
-                        'demonstrate features in the swagger-2.0 specification'
-      key :termsOfService, 'http://helloreverb.com/terms/'
+      key :title, 'Swagger Todo API'
+      key :description, 'A sample API that uses rails todo_api'
       contact do
-        key :name, 'Wordnik API Team'
+        key :name, 'Krasno Oleg https://github.com/krasno86'
       end
       license do
         key :name, 'MIT'
@@ -18,23 +16,22 @@ class ApidocsController < ActionController::Base
     end
     tag do
       key :name, 'project'
-      key :description, 'Pets operations'
+      key :description, 'project operations'
       externalDocs do
         key :description, 'Find more info here'
         key :url, 'https://swagger.io'
       end
     end
-    key :host, 'petstore.swagger.wordnik.com'
-    key :basePath, '/api'
-    key :consumes, ['application/json']
-    key :produces, ['application/json']
   end
 
-  # A list of all classes that have swagger_* declarations.
   SWAGGERED_CLASSES = [
-      PetsController,
-      Pet,
-      ErrorModel,
+      Api::V1::ProjectsController,
+      Api::V1::CommentsController,
+      Api::V1::TasksController,
+      Project,
+      User,
+      Comment,
+      Task,
       self,
   ].freeze
 
