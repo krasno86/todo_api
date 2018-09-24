@@ -12,7 +12,18 @@ RSpec.describe Project, type: :request do
 
     context 'authorized user to index' do
       before {
-        get "/api/v1/projects/#{project.id}",
+        get "/api/v1/projects", headers: user.create_new_auth_token
+      }
+      it { expect(response).to have_http_status 200 }
+      it 'show all projects' do
+        p response.body
+        expect(response[:projects])
+      end
+    end
+
+    context 'authorized user to show' do
+      before {
+        get "/api/v1/projects",
             params: { id: project.id }, headers: user.create_new_auth_token
       }
       it { expect(response).to have_http_status 200 }

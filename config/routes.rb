@@ -12,5 +12,7 @@ Rails.application.routes.draw do
       end
     end
   end
-  resources :apidocs, only: [:index]
+  # resources :apidocs, only: %i[index]
+  get '/apidocs', to: 'apidocs#index'
+  get '/docs' => redirect('swagger-ui/index.html')
 end
