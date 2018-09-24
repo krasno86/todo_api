@@ -18,9 +18,13 @@ RSpec.describe Task, type: :model do
   end
 
   describe 'validation' do
+    let(:user) { build(:user) }
+    let(:project) { build(:project, user: user) }
+    let(:task) { build(:task, project: project) }
     let(:invalid_task1) { build(:task, name: '') }
     let(:invalid_task2) { build(:task, name: 'regregeg', text: '') }
 
+    it { expect(task).to be_valid }
     it { expect(invalid_task1).not_to be_valid }
     it { expect(invalid_task2).not_to be_valid }
   end
