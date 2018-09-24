@@ -10,12 +10,15 @@ module Api::V1
 
     def index
       @projects = current_user.projects.all.order("created_at DESC")
-      # render json: @projects, status: 200
-        render json: ProjectSerializer.new(@projects).serialized_json, status: 200
+      p @projects
+      render json: @projects, status: 200
+      # render json: serialized_project(@project), status: 200
+      #   render json: ProjectSerializer.new(@projects).serialized_json, status: 200
     end
 
     def show
-      render json: ProjectSerializer.new(@project).serialized_json, status: 200
+      p @project
+      render json: serialized_project(@project), status: 200
     end
 
     def create
@@ -41,6 +44,10 @@ module Api::V1
     end
 
     private
+
+    def serialized_project(project)
+      ProjectSerializer.new(project).serialized_json
+    end
 
     def project_params
       params.require(:project).permit(:name)
