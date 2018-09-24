@@ -1,7 +1,7 @@
 class Comment < ApplicationRecord
 
-  belongs_to :user, dependent: :destroy
-  belongs_to :project, dependent: :destroy
+  belongs_to :user
+  belongs_to :project
 
   attr_accessor :id, :name, :file, :user_id
 

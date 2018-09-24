@@ -5,8 +5,8 @@ class User < ActiveRecord::Base
          :recoverable, :trackable, :validatable
   include DeviseTokenAuth::Concerns::User
 
-  has_many :projects
-  has_many :comments
+  has_many :projects, dependent: :destroy
+  has_many :comments, dependent: :destroy
 
   validates :email, presence: true, length: { minimum: 3,
                                               too_short: "%{count} characters is the minimum allowed",

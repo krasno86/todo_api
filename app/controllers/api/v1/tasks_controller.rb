@@ -33,6 +33,8 @@ module Api::V1
     end
 
     def destroy
+      p params
+      p current_user
       if Task.destroy(params[:id])
         head :no_content, status: :ok
       else
