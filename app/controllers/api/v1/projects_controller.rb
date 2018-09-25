@@ -10,21 +10,20 @@ module Api::V1
 
     def index
       @projects = current_user.projects.all.order("created_at DESC")
-      p @projects
-      render json: @projects, status: 200
-      # render json: serialized_project(@project), status: 200
-      #   render json: ProjectSerializer.new(@projects).serialized_json, status: 200
+      render json: serialized_project(@projects), status: 200
     end
 
     def show
       p @project
-      render json: serialized_project(@project), status: 200
+      p ProjectSerializer.new(@project).serialized_json
+      render json: ProjectSerializer.new(@project).serialized_json, status: 200
+      # render json: serialized_project(@project), status: 200
     end
 
     def create
       @project = current_user.projects.new(project_params)
       if @project.save!
-        render json: ProjectSerializer.new(@project).serialized_json, status: 201
+        render json: serialized_project(@project), status: 201
       else
         render json: @project.errors.messages, status: 422
       end
@@ -32,7 +31,7 @@ module Api::V1
 
     def update
       @project.update_attributes(project_params)
-      render json: ProjectSerializer.new(@project).serialized_json
+      render json: serialized_project(@project)
     end
 
     def destroy

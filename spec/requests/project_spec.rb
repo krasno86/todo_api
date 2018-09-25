@@ -1,8 +1,8 @@
 require 'rails_helper'
 
 RSpec.describe Project, type: :request do
-  let!(:user) { create(:user) }
-  let!(:project)  { create(:project, user: user) }
+  let(:user) { create(:user) }
+  let(:project)  { create(:project, user: user) }
 
   describe '/api/v1/projects' do
     context 'unauthorized user' do
@@ -17,7 +17,6 @@ RSpec.describe Project, type: :request do
       }
       it { expect(response).to have_http_status 200 }
       it 'show all projects' do
-        p response[:projects]
         expect(json_response[:projects].size).to eq(5)
         expect(response[:project])
       end
@@ -25,7 +24,7 @@ RSpec.describe Project, type: :request do
 
     context 'authorized user to show' do
       before {
-        get "/api/v1/projects",
+        get "/api/v1/projects/#{project.id}",
             params: { id: project.id }, headers: user.create_new_auth_token
       }
       it { expect(response).to have_http_status 200 }
