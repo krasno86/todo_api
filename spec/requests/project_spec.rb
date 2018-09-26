@@ -3,6 +3,7 @@ require 'rails_helper'
 RSpec.describe Project, type: :request do
   let(:user) { create(:user) }
   let(:project)  { create(:project, user: user) }
+  let(:projects)  { create(project, 5) }
 
   describe '/api/v1/projects' do
     context 'unauthorized user' do
@@ -29,6 +30,7 @@ RSpec.describe Project, type: :request do
       }
       it { expect(response).to have_http_status 200 }
       it 'show project' do
+        p JSON.pretty_generate(json)
         expect(response[:project])
       end
     end

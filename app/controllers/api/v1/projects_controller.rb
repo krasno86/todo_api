@@ -14,10 +14,7 @@ module Api::V1
     end
 
     def show
-      p @project
-      p ProjectSerializer.new(@project).serialized_json
-      render json: ProjectSerializer.new(@project).serialized_json, status: 200
-      # render json: serialized_project(@project), status: 200
+      render json: serialized_project(@project), status: 200
     end
 
     def create
