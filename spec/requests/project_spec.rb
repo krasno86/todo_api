@@ -12,7 +12,7 @@ RSpec.describe Project, type: :request do
 
     context 'authorized user to index' do
       before {
-        5.times {create(:project, user: user) }
+        5.times {create(:project, user: user)}
         get "/api/v1/projects", headers: user.create_new_auth_token
       }
       it { expect(response).to have_http_status 200 }
