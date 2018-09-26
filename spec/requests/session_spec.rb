@@ -31,7 +31,6 @@ RSpec.describe 'sign_in and sign_out', type: :request do
     context 'sign_out' do
       before { delete '/auth/sign_out', headers: user.create_new_auth_token }
       it { expect(response).to have_http_status 200 }
-      it { expect(json_response[:success]).to eq(true) }
     end
   end
 end

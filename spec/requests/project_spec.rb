@@ -3,7 +3,6 @@ require 'rails_helper'
 RSpec.describe Project, type: :request do
   let(:user) { create(:user) }
   let(:project)  { create(:project, user: user) }
-  let(:projects)  { create(project, 5) }
 
   describe '/api/v1/projects' do
     context 'unauthorized user' do
@@ -12,14 +11,15 @@ RSpec.describe Project, type: :request do
     end
 
     context 'authorized user to index' do
-      let(:projects) { create_list(project, 5)  }
       before {
+        5.times {create(:project, user: user) }
         get "/api/v1/projects", headers: user.create_new_auth_token
       }
       it { expect(response).to have_http_status 200 }
       it 'show all projects' do
-        expect(json_response[:projects].size).to eq(5)
-        expect(response[:project])
+        # p JSON.pretty_generate(json)
+        expect(json['data'].length).to eq 5
+        expect(json['data'][0]['attributes'].keys).to contain_exactly(*%w[name])
       end
     end
 
@@ -30,7 +30,6 @@ RSpec.describe Project, type: :request do
       }
       it { expect(response).to have_http_status 200 }
       it 'show project' do
-        p JSON.pretty_generate(json)
         expect(response[:project])
       end
     end

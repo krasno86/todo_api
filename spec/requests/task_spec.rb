@@ -7,22 +7,26 @@ RSpec.describe Task, type: :request do
 
   describe '/api/v1/projects/:project_id/tasks' do
     context 'unauthorized user' do
-      before { get '/api/v1/projects' }
+      before { get "/api/v1/projects/#{:project_id}/tasks" }
       it { expect(response).to have_http_status 401 }
     end
 
     context 'authorized user to index' do
-      before { get "/api/v1/projects/#{project.id}/tasks/#{task.id}", headers: user.create_new_auth_token }
+      before {
+        5.times {create(:task, project: project) }
+        get "/api/v1/projects/#{project.id}/tasks", headers: user.create_new_auth_token
+      }
       it { expect(response).to have_http_status 200 }
       it 'show task' do
-        expect(response[:task])
+        expect(json['data'].length).to eq 5
+        expect(json['data'][0]['attributes'].keys).to contain_exactly(*%w[name])
       end
     end
 
-    context 'get index' do
+    context 'get show' do
       before {
         get "/api/v1/projects/#{project.id}/tasks/#{task.id}",
-            params: { id: project.id }, headers: user.create_new_auth_token
+            params: { id: task.id }, headers: user.create_new_auth_token
       }
       it { expect(response).to have_http_status 200 }
       it 'show project' do

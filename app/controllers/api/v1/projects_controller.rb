@@ -4,23 +4,24 @@ module Api::V1
   class ProjectsController < ApplicationController
     include DeviseTokenAuth::Concerns::SetUserByToken
     include Swagger::Blocks
+    include Serialize_object
 
     before_action :authenticate_user!
     before_action :set_project, only: [:show, :update, :destroy]
 
     def index
       @projects = current_user.projects.all.order("created_at DESC")
-      render json: serialized_project(@projects), status: 200
+      render json: serialized_object(@projects), status: 200
     end
 
     def show
-      render json: serialized_project(@project), status: 200
+      render json: serialized_object(@project), status: 200
     end
 
     def create
       @project = current_user.projects.new(project_params)
       if @project.save!
-        render json: serialized_project(@project), status: 201
+        render json: serialized_object(@project), status: 201
       else
         render json: @project.errors.messages, status: 422
       end
@@ -28,7 +29,7 @@ module Api::V1
 
     def update
       @project.update_attributes(project_params)
-      render json: serialized_project(@project)
+      render json: serialized_object(@project)
     end
 
     def destroy
@@ -40,10 +41,6 @@ module Api::V1
     end
 
     private
-
-    def serialized_project(project)
-      ProjectSerializer.new(project).serialized_json
-    end
 
     def project_params
       params.require(:project).permit(:name)
