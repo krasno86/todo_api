@@ -13,7 +13,6 @@ module Api::V1
       p '1111111111111111111111111111111'
       p params[:project_id]
       @tasks = @project.tasks.all.order("created_at DESC")
-<<<<<<< HEAD
       p @tasks
       p serialized_object(@tasks)
       # render json: serialized_object(@tasks), status: 200
@@ -24,13 +23,7 @@ module Api::V1
       p 'SHOW qqqqqqqqqqqqqqqqq'
       p @task
       p serialized_object(@task)
-=======
       render json: serialized_object(@tasks), status: 200
-    end
-
-    def show
->>>>>>> dc228699e3101619f503e2dc13fff2882e97eeae
-      render json: serialized_object(@task), status: 200
     end
 
     def create
