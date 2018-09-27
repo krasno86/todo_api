@@ -11,6 +11,7 @@ module Api::V1
 
     swagger_path '/projects/{id}' do
       operation :get do
+        key :summary, 'Find Project by ID'
         key :description, 'Returns a single project if the user has access'
         key :operationId, 'findProjectById'
         key :produced, [ 'application/json']
@@ -20,13 +21,12 @@ module Api::V1
           key :in, :path
           key :description, 'ID of project'
           key :required, true
-          key :type, :integer
           key :format, :int64
         end
         response 200 do
           key :description, 'project response'
           schema do
-            key :'$ref', :ProjectResponse
+            key :'$ref', :Project
           end
         end
         response :default do
@@ -38,20 +38,124 @@ module Api::V1
       end
     end
 
+    # swagger_path '/projects' do
+    #   operation :get do
+    #     key :summary, 'All projects'
+    #     key :description, 'Returns all projects from the system'
+    #     key :operationId, 'getProject'
+    #     key :produced, [ 'application/json']
+    #     key :tags, ['projects']
+    #     response 200 do
+    #       key :description, 'All projects'
+    #       schema do
+    #         key :'$ref', :ProjectsResponse
+    #       end
+    #     end
+    #   end
+    # end
+  #   end
+  # end
+
     swagger_path '/projects' do
       operation :get do
-        key :description, 'Get All projects'
+        key :summary, 'All projects'
+        key :description, 'Returns all projects from the system'
         key :operationId, 'getProject'
         key :produced, [ 'application/json']
-        key :tags, ['projects']
+        key :tags, ['project']
+        parameter do
+          key :name, :tags
+          key :in, :query
+          key :description, 'tags to filter by'
+          key :required, false
+          key :type, :array
+          items do
+            key :type, :string
+          end
+          key :collectionFormat, :csv
+        end
         response 200 do
-          key :description, 'All projects'
+          key :description, 'project response'
           schema do
-            key :'$ref', :ProjectsResponse
+            key :type, :array
+            items do
+              key :'$ref', :Project
+            end
+          end
+        end
+        response :default do
+          key :description, 'unexpected error'
+          schema do
+            key :'$ref', :ErrorModel
+          end
+        end
+      end
+
+      operation :post do
+        key :description, 'Creates a new project in the store.  Duplicates are allowed'
+        key :operationId, 'addProject'
+        key :produces, [
+            'application/json'
+        ]
+        key :tags, [
+            'project'
+        ]
+        parameter do
+          key :name, :project
+          key :in, :body
+          key :description, 'Project to add to the store'
+          key :required, true
+          schema do
+            key :'$ref', :ProjectInput
+          end
+        end
+        response 200 do
+          key :description, 'project response'
+          schema do
+            key :'$ref', :Project
+          end
+        end
+        response :default do
+          key :description, 'unexpected error'
+          schema do
+            key :'$ref', :ErrorModel
+          end
+        end
+      end
+
+      operation :put do
+        key :description, 'Update project in the store.'
+        key :operationId, 'updateProject'
+        key :produces, [
+            'application/json'
+        ]
+        key :tags, [
+            'project'
+        ]
+        parameter do
+          key :name, :project
+          key :in, :body
+          key :description, 'Project to add to the store'
+          key :required, true
+          schema do
+            key :'$ref', :ProjectInput
+          end
+        end
+        response 200 do
+          key :description, 'project response'
+          schema do
+            key :'$ref', :Project
+          end
+        end
+        response :default do
+          key :description, 'unexpected error'
+          schema do
+            key :'$ref', :ErrorModel
           end
         end
       end
     end
+
 
     def index
       @projects = current_user.projects.all.order("created_at DESC")
