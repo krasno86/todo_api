@@ -10,13 +10,14 @@ RSpec.describe Comment, type: :model do
 
   context 'basic validation presence_of' do
     it { expect validate_presence_of(:file) }
-    it { expect validate_presence_of(:test) }
+    it { expect validate_presence_of(:text) }
   end
 
   describe 'validation' do
     let(:user) { build(:user) }
     let(:project) { build(:project, user: user) }
-    let(:valid_comment) { build(:comment, user: user, project: project) }
+    let(:task) { build(:task, project: project) }
+    let(:valid_comment) { create(:comment, user: user, task: task) }
     let(:invalid_comment1) { build(:comment, text: '') }
     let(:invalid_comment) { build(:comment, text: 'bla bla') }
 

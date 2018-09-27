@@ -10,20 +10,12 @@ module Api::V1
     before_action :set_project, only: [:index, :create]
 
     def index
-      p '1111111111111111111111111111111'
-      p params[:project_id]
       @tasks = @project.tasks.all.order("created_at DESC")
-      p @tasks
-      p serialized_object(@tasks)
-      # render json: serialized_object(@tasks), status: 200
-      render json: @tasks, status: 200
+      render json: TaskSerializer.new(@tasks).serialized_json, status: 200
     end
 
     def show
-      p 'SHOW qqqqqqqqqqqqqqqqq'
-      p @task
-      p serialized_object(@task)
-      render json: serialized_object(@tasks), status: 200
+      render json: serialized_object(@task), status: 200
     end
 
     def create

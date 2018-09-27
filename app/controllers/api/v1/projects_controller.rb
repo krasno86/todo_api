@@ -55,7 +55,7 @@ module Api::V1
 
     def index
       @projects = current_user.projects.all.order("created_at DESC")
-      render json: serialized_object(@projects), status: 200
+      render json: ProjectSerializer.new(@projects).serialized_json, status: 200
     end
 
     def show

@@ -9,13 +9,13 @@ module Api::V1
     before_action :set_task, only: [:index, :create]
 
     def index
-      @comments = @task.comments.order("created_at DESC")
-      render json: serialized_object(@comments), status: 200
+      @comments = @task.comments.order("created_at ASC")
+      render json: CommentSerializer.new(@comments).serialized_json, status: 200
     end
 
     def create
-      @comment = @task.comments.new(comment_params)
-      if @task.save!
+      @comment = @task.comments.new(comment_params.merge(user_id: current_user.id))
+      if @comment.save!
         render json: serialized_object(@comment), status: 201
       else
         render json: @task.errors.messages, status: 422
@@ -37,7 +37,7 @@ module Api::V1
     end
 
     def set_task
-      @task = Task.find(params[:id])
+      @task = Task.find(params[:task_id])
     end
   end
 end

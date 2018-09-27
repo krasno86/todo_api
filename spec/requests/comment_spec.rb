@@ -4,7 +4,7 @@ RSpec.describe Comment, type: :request do
   let(:user) { create(:user) }
   let(:project) { create(:project, user: user) }
   let(:task)  { create(:task, project: project) }
-  let(:comment)  { create(:comment, project: project, user: user) }
+  let(:comment)  { create(:comment, task: task, user: user) }
 
   describe '/api/v1/projects/:project_id/tasks/:task_id/comments' do
     context 'unauthorized user' do
@@ -13,10 +13,14 @@ RSpec.describe Comment, type: :request do
     end
 
     context 'authorized user to index' do
-      before { get "/api/v1/projects/#{project.id}/tasks/#{task.id}/comments", headers: user.create_new_auth_token }
+      before {
+        5.times {create(:comment, user: user, task: task)}
+        get "/api/v1/projects/#{project.id}/tasks/#{task.id}/comments", headers: user.create_new_auth_token
+      }
       it { expect(response).to have_http_status 200 }
       it 'show comments' do
-        expect(response[:comment])
+        expect(json['data'].length).to eq 5
+        expect(json['data'][0]['attributes'].keys).to contain_exactly(*%w[text file])
       end
     end
 
