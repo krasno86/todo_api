@@ -29,12 +29,6 @@ module Api::V1
             key :'$ref', :Project
           end
         end
-        response :default do
-          key :description, 'unexpected error'
-          schema do
-            key :'$ref', :ErrorModel
-          end
-        end
       end
     end
 
@@ -83,12 +77,6 @@ module Api::V1
             end
           end
         end
-        response :default do
-          key :description, 'unexpected error'
-          schema do
-            key :'$ref', :ErrorModel
-          end
-        end
       end
 
       operation :post do
@@ -115,12 +103,6 @@ module Api::V1
             key :'$ref', :Project
           end
         end
-        response :default do
-          key :description, 'unexpected error'
-          schema do
-            key :'$ref', :ErrorModel
-          end
-        end
       end
 
       operation :put do
@@ -145,12 +127,6 @@ module Api::V1
           key :description, 'project response'
           schema do
             key :'$ref', :Project
-          end
-        end
-        response :default do
-          key :description, 'unexpected error'
-          schema do
-            key :'$ref', :ErrorModel
           end
         end
       end
