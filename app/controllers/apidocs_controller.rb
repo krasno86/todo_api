@@ -5,22 +5,14 @@ class ApidocsController < ActionController::Base
     key :swagger, '2.0'
     info do
       key :version, '1.0.0'
-      key :title, 'Swagger Todo API'
-      key :description, 'A sample API that uses rails todo_api'
+      key :title, 'Todo API'
       contact do
         key :name, 'Krasno Oleg https://github.com/krasno86'
-      end
-      license do
-        key :name, 'MIT'
       end
     end
     tag do
       key :name, 'project'
       key :description, 'project operations'
-      externalDocs do
-        key :description, 'Find more info here'
-        key :url, 'https://swagger.io'
-      end
     end
   end
 
