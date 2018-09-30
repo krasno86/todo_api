@@ -19,7 +19,7 @@ RSpec.describe Task, type: :request do
       it { expect(response).to have_http_status 200 }
       it 'show task' do
         expect(json['data'].length).to eq 5
-        expect(json['data'][0]['attributes'].keys).to contain_exactly(*%w[name text])
+        expect(json['data'][0]['attributes'].keys).to contain_exactly(*%w[name])
       end
     end
 
@@ -37,10 +37,8 @@ RSpec.describe Task, type: :request do
     context 'create' do
       before {
         post "/api/v1/projects/#{project.id}/tasks",
-             params: {
-                      task:
-                          {name: Faker::StarWars.droid,
-                           text: Faker::StarWars.quote}
+             params: {task:
+                          {name: Faker::StarWars.droid}
                       },
                       headers: user.create_new_auth_token
       }
