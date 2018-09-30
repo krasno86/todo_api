@@ -28,8 +28,11 @@ module Api::V1
     end
 
     def update
-      @task.update(task_params)
-      render json: serialized_object(@task)
+      if @task.update(task_params)
+        render json: serialized_object(@task)
+      else
+        render json: @task.errors, status: :unprocessable_entity
+      end
     end
 
     def destroy

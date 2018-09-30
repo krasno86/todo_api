@@ -9,7 +9,7 @@ module Api::V1
     before_action :authenticate_user!
     before_action :set_project, only: [:show, :update, :destroy]
 
-    swagger_path '/projects/{id}' do
+    swagger_path '/projects/:id' do
       operation :get do
         key :summary, 'Find Project by ID'
         key :description, 'Returns a single project if the user has access'
@@ -32,24 +32,6 @@ module Api::V1
       end
     end
 
-    # swagger_path '/projects' do
-    #   operation :get do
-    #     key :summary, 'All projects'
-    #     key :description, 'Returns all projects from the system'
-    #     key :operationId, 'getProject'
-    #     key :produced, [ 'application/json']
-    #     key :tags, ['projects']
-    #     response 200 do
-    #       key :description, 'All projects'
-    #       schema do
-    #         key :'$ref', :ProjectsResponse
-    #       end
-    #     end
-    #   end
-    # end
-  #   end
-  # end
-
     swagger_path '/projects' do
       operation :get do
         key :summary, 'All projects'
@@ -58,7 +40,7 @@ module Api::V1
         key :produced, [ 'application/json']
         key :tags, ['project']
         parameter do
-          key :name, :tags
+          key :name, :id
           key :in, :query
           key :description, 'tags to filter by'
           key :required, false
@@ -80,7 +62,7 @@ module Api::V1
       end
 
       operation :post do
-        key :description, 'Creates a new project in the store.  Duplicates are allowed'
+        key :description, 'Creates a new project.'
         key :operationId, 'addProject'
         key :produces, [
             'application/json'
@@ -91,7 +73,7 @@ module Api::V1
         parameter do
           key :name, :project
           key :in, :body
-          key :description, 'Project to add to the store'
+          key :description, 'Project'
           key :required, true
           schema do
             key :'$ref', :ProjectInput
@@ -130,8 +112,33 @@ module Api::V1
           end
         end
       end
-    end
 
+      operation :delete do
+        key :description, 'Delete project.'
+        key :operationId, 'deleteProject'
+        key :produces, [
+            'application/json'
+        ]
+        key :tags, [
+            'project'
+        ]
+        parameter do
+          key :name, :project
+          key :in, :body
+          key :description, 'Project delete'
+          key :required, true
+          schema do
+            key :'$ref', :ProjectInput
+          end
+        end
+        response 200 do
+          key :description, 'project response'
+          schema do
+            key :'$ref', :Project
+          end
+        end
+      end
+    end
 
     def index
       @projects = current_user.projects.all.order("created_at DESC")
@@ -152,8 +159,11 @@ module Api::V1
     end
 
     def update
-      @project.update_attributes(project_params)
-      render json: serialized_object(@project)
+      if @project.update_attributes(project_params)
+        render json: serialized_object(@project)
+      else
+        render json: @project.errors, status: :unprocessable_entity
+      end
     end
 
     def destroy
