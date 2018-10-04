@@ -14,12 +14,12 @@ RSpec.describe Comment, type: :request do
 
     context 'authorized user to index' do
       before {
-        5.times {create(:comment, user: user, task: task)}
+        3.times {create(:comment, user: user, task: task)}
         get "/api/v1/projects/#{project.id}/tasks/#{task.id}/comments", headers: user.create_new_auth_token
       }
       it { expect(response).to have_http_status 200 }
       it 'show comments' do
-        expect(json['data'].length).to eq 5
+        expect(json['data'].length).to eq 3
         expect(json['data'][0]['attributes'].keys).to contain_exactly(*%w[text file])
       end
     end
@@ -40,7 +40,7 @@ RSpec.describe Comment, type: :request do
     context 'DELETE comment' do
       before {
         delete "/api/v1/projects/#{project.id}/tasks/#{task.id}/comments/#{comment.id}",
-               params: { id: comment.id }, headers: user.create_new_auth_token
+               headers: user.create_new_auth_token
       }
       it { expect(response).to have_http_status 204 }
     end

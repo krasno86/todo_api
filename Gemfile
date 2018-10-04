@@ -47,6 +47,7 @@ group :development do
 end
 
 group :test do
+  gem 'pundit-matchers', '~> 1.6.0'
   gem 'database_cleaner'
   gem 'factory_bot_rails'
   gem 'faker'
