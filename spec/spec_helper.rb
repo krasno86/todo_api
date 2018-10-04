@@ -1,4 +1,4 @@
-
+require 'pundit/matchers'
 require 'rails_helper'
 require 'rspec-rails'
 

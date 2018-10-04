@@ -31,6 +31,7 @@ gem 'carrierwave'
 gem 'fast_jsonapi'
 gem 'swagger-blocks'
 gem 'file_validators'
+gem 'pundit'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
@@ -46,6 +47,7 @@ group :development do
 end
 
 group :test do
+  gem 'pundit-matchers', '~> 1.6.0'
   gem 'database_cleaner'
   gem 'factory_bot_rails'
   gem 'faker'

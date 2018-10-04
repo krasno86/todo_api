@@ -40,6 +40,12 @@ class User < ActiveRecord::Base
   devise :database_authenticatable, :registerable,
          :recoverable, :trackable, :validatable
   include DeviseTokenAuth::Concerns::User
+  enum role: [:user, :admin]
+  after_initialize :set_default_role, :if => :new_record?
+
+  def set_default_role
+    self.role ||= :user
+  end
 
   has_many :projects, dependent: :destroy
   has_many :comments, dependent: :destroy

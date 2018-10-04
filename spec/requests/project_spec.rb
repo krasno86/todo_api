@@ -12,13 +12,13 @@ RSpec.describe Project, type: :request do
 
     context 'authorized user to index' do
       before {
-        5.times {create(:project, user: user)}
+        3.times {create(:project, user: user)}
         get "/api/v1/projects", headers: user.create_new_auth_token
       }
       it { expect(response).to have_http_status 200 }
       it 'show all projects' do
         # p JSON.pretty_generate(json)
-        expect(json['data'].length).to eq 5
+        expect(json['data'].length).to eq 3
         expect(json['data'][0]['attributes'].keys).to contain_exactly(*%w[name])
       end
     end
@@ -46,7 +46,7 @@ RSpec.describe Project, type: :request do
       let(:user1) { create(:user, email: 'wgt3wgf@dgd.com') }
       before {
         delete "/api/v1/projects/#{project.id}",
-             params: { id: project.id }, headers: user1.create_new_auth_token
+             headers: user1.create_new_auth_token
       }
       it { expect(response).to have_http_status 204 }
     end
