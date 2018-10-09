@@ -116,7 +116,7 @@ module Api::V1
     end
 
     before_action :authenticate_user!
-    before_action :set_task, only: [:index, :create]
+    before_action :set_task, only: [:index, :create, :destroy]
 
     def index
       @comments = @task.comments.order("created_at ASC")
@@ -133,7 +133,7 @@ module Api::V1
     end
 
     def destroy
-      if Comment.destroy(params[:id])
+      if Comment.destroy
         head :no_content, status: :ok
       else
         render json: @comment.errors, status: :unprocessable_entity

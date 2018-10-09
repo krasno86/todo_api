@@ -42,6 +42,7 @@ class User < ActiveRecord::Base
   include DeviseTokenAuth::Concerns::User
   enum role: [:user, :admin]
   after_initialize :set_default_role, :if => :new_record?
+  before_save :downcase_email
 
   def set_default_role
     self.role ||= :user
@@ -50,9 +51,13 @@ class User < ActiveRecord::Base
   has_many :projects, dependent: :destroy
   has_many :comments, dependent: :destroy
 
-  validates :email, presence: true, length: { minimum: 3,
-                                              too_short: "%{count} characters is the minimum allowed",
-                                              maximum: 50,
-                                              too_long: "%{count} characters is the maximum allowed" }
+  validates_presence_of :email
+  validates_uniqueness_of :email, case_sensitive: false
+  validates_format_of :email, with: /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\z/i
 
+  private
+
+  def downcase_email
+    self.email = self.email.delete(' ').downcase
+  end
 end

@@ -168,7 +168,7 @@ module Api::V1
     end
 
     def destroy
-      if Task.destroy(params[:id])
+      if Task.destroy
         head :no_content, status: :ok
       else
         render json: @task.errors, status: :unprocessable_entity

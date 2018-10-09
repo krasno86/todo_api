@@ -34,7 +34,4 @@ class Task < ApplicationRecord
 
   validates :name, presence: true, uniqueness: true
 
-  def display_deadline
-    try(:deadline).strftime("%d/%m/%Y")
-  end
 end

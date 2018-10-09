@@ -6,9 +6,6 @@ module Api::V1
     include Swagger::Blocks
     include Serialize_object
 
-    before_action :authenticate_user!
-    before_action :set_project, only: [:show, :update, :destroy]
-
     swagger_path '/projects/:id' do
       operation :get do
         key :summary, 'Find Project by ID'
@@ -139,6 +136,9 @@ module Api::V1
         end
       end
     end
+
+    before_action :authenticate_user!
+    before_action :set_project, only: [:show, :update, :destroy]
 
     def index
       @projects = current_user.projects.all.order("created_at DESC")
