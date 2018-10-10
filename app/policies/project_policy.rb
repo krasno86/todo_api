@@ -1,17 +1,28 @@
 class ProjectPolicy
-  attr_reader :user, :record
+  attr_reader :user, :project
 
-  def initialize(user, record)
+  def initialize(user, project)
     @user = user
-    @record = record
-  end
-
-  def destroy?
-    user.role == 'admin'
-    # user.role == 'admin' || record.user == user
+    @project = project
   end
 
   def show?
-    user.role == 'admin' || record.user == user
+    project.user == user
+  end
+
+  def index?
+    project.user == user
+  end
+
+  def create?
+    project.user == user
+  end
+
+  def update?
+    project.user == user
+  end
+
+  def destroy?
+    user.role == 'admin' || project.user == user
   end
 end
