@@ -1,6 +1,7 @@
 require 'pundit/matchers'
 require 'rails_helper'
 require 'rspec-rails'
+require 'pundit/rspec'
 
 RSpec.configure do |config|
   config.expect_with :rspec do |expectations|

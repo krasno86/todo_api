@@ -1,27 +1,26 @@
 require 'rails_helper'
 
 describe ProjectPolicy do
-  subject { described_class.new(user, project) }
-
-  let(:project) { Project.create }
+  subject { ProjectPolicy.new(user, project) }
 
   context 'being a visitor' do
+    let(:project) { Project.create }
     let(:user) { create(:user) }
 
-    it { is_expected.to forbid_action(:show) }
-    it { is_expected.to forbid_action(:destroy) }
+    it { is_expected.to forbid_actions([:show, :index, :update, :destroy, :create]) }
   end
 
   context 'being an admin' do
     let(:user) { build(:user, role: 'admin') }
+    let(:project) { Project.create }
+
     it { is_expected.to permit_actions([:destroy]) }
   end
 
   context 'being an owner of project' do
+    let(:user) { create(:user) }
+    let(:project) { create(:project, user_id: user.id) }
 
-    let(:user1) { User.create }
-    let(:project) { Project.create(user_id: user1.id) }
-
-    it { is_expected.to permit_action([:show]) }
+    it { is_expected.to permit_actions([:show, :index, :update, :destroy, :create]) }
   end
 end
