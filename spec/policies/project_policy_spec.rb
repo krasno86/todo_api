@@ -16,4 +16,12 @@ describe ProjectPolicy do
     let(:user) { build(:user, role: 'admin') }
     it { is_expected.to permit_actions([:destroy]) }
   end
+
+  context 'being an owner of project' do
+
+    let(:user1) { User.create }
+    let(:project) { Project.create(user_id: user1.id) }
+
+    it { is_expected.to permit_action([:show]) }
+  end
 end
