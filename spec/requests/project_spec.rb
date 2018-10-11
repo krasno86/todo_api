@@ -12,13 +12,13 @@ RSpec.describe Project, type: :request do
 
     context 'authorized user to index' do
       before {
-        3.times {create(:project, user: user)}
+        2.times {create(:project, user: user)}
         get "/api/v1/projects", headers: user.create_new_auth_token
       }
       it { expect(response).to have_http_status 200 }
       it 'show all projects' do
         # p JSON.pretty_generate(json)
-        expect(json['data'].length).to eq 3
+        expect(json['data'].length).to eq 2
         expect(json['data'][0]['attributes'].keys).to contain_exactly(*%w[name])
       end
     end
