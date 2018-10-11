@@ -116,7 +116,7 @@ module Api::V1
     end
 
     before_action :authenticate_user!
-    before_action :set_task, only: [:index, :create, :destroy]
+    before_action :set_task, only: [:index, :create]
 
     def index
       @comments = @task.comments.order("created_at ASC")
