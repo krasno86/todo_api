@@ -133,7 +133,8 @@ module Api::V1
     end
 
     def destroy
-      if Comment.destroy
+      @comment = Comment.find(params[:id])
+      if @comment.destroy
         head :no_content, status: :ok
       else
         render json: @comment.errors, status: :unprocessable_entity

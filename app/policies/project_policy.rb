@@ -10,10 +10,6 @@ class ProjectPolicy
     project.user == user
   end
 
-  def index?
-    project.user == user
-  end
-
   def create?
     project.user == user
   end

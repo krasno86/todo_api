@@ -5,7 +5,7 @@ RSpec.describe Project, type: :request do
   let(:project)  { create(:project, user: user) }
 
   describe '/api/v1/projects' do
-    context 'unauthorized user' do
+    context 'unauthorized user to index' do
       before { get '/api/v1/projects' }
       it { expect(response).to have_http_status 401 }
     end
@@ -34,7 +34,7 @@ RSpec.describe Project, type: :request do
       end
     end
 
-    context 'create' do
+    context 'authorized user to create' do
       before {
         post '/api/v1/projects',
              params: {project: {name: Faker::StarWars.droid} }, headers: user.create_new_auth_token
@@ -42,11 +42,10 @@ RSpec.describe Project, type: :request do
       it { expect(response).to have_http_status 201 }
     end
 
-    context 'DELETE' do
-      let(:user1) { create(:user, email: 'wgt3wgf@dgd.com') }
+    context 'authorized user to DELETE' do
       before {
         delete "/api/v1/projects/#{project.id}",
-             headers: user1.create_new_auth_token
+             headers: user.create_new_auth_token
       }
       it { expect(response).to have_http_status 204 }
     end
