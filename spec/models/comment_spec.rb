@@ -25,4 +25,22 @@ RSpec.describe Comment, type: :model do
     it { expect(invalid_comment1).not_to be_valid }
     it { expect(invalid_comment1).not_to be_valid }
   end
+
+  context "#to_json" do
+    let(:user) { create(:user) }
+    let(:project) { create(:project, user: user) }
+    let(:task)  { create(:task, project: project) }
+    let(:comment)  { create(:comment, text: 'bla bla erqvevqev', task: task, user: user) }
+
+
+    it "includes name" do
+      text = %({"text":"bla bla erqvevqev","file":{"url": null}})
+      expect(comment.to_json).to be_json_eql(text).excluding("task_id", "user_id")
+    end
+
+    it "includes the ID" do
+      expect(comment.to_json).to have_json_path("id")
+      expect(comment.to_json).to have_json_type(Integer).at_path("id")
+    end
+  end
 end
