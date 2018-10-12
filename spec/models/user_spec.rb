@@ -28,4 +28,10 @@ RSpec.describe User, type: :model do
     it { expect(user).to be_valid }
     it { expect(invalid_user).not_to be_valid }
   end
+
+  context 'set default role' do
+    let(:user){ build(:user) }
+
+    it { expect(user.role).to eq('user') }
+  end
 end

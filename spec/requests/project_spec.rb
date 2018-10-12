@@ -23,7 +23,7 @@ RSpec.describe Project, type: :request do
       end
     end
 
-    context 'authorized user to show' do
+    context 'authorized user to index' do
       before {
         get "/api/v1/projects/#{project.id}",
             params: { id: project.id }, headers: user.create_new_auth_token
