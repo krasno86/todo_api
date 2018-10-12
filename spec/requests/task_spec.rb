@@ -30,7 +30,7 @@ RSpec.describe Task, type: :request do
       }
       it { expect(response).to have_http_status 200 }
       it 'show task' do
-        expect(response[:task])
+        expect(json).to match_response_schema("task")
       end
     end
 

@@ -23,14 +23,14 @@ RSpec.describe Project, type: :request do
       end
     end
 
-    context 'authorized user to index' do
+    context 'authorized user to show' do
       before {
         get "/api/v1/projects/#{project.id}",
             params: { id: project.id }, headers: user.create_new_auth_token
       }
       it { expect(response).to have_http_status 200 }
       it 'show project' do
-        expect(response[:project])
+        expect(json).to match_response_schema("project")
       end
     end
 

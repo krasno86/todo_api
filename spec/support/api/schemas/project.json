@@ -1,0 +1,29 @@
+{
+  "data": {
+    "id": { "type": "integer" },
+    "required": ["project"],
+    "type": "object",
+    "attributes": {
+      "id": { "type": "integer" },
+      "name": { "type": "string" }
+    },
+    "relationships": {
+      "tasks": {
+        "data": [
+          {
+            "id": { "type": "integer" },
+            "type": { "type": "string" }
+          }
+        ]
+      },
+      "user": {
+        "data": [
+          {
+            "id": { "type": "integer" },
+            "type": { "type": "string" }
+          }
+        ]
+      }
+    }
+  }
+}

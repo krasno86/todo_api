@@ -25,6 +25,7 @@ RSpec.describe 'sign_in and sign_out', type: :request do
       }
       it 'valid params' do
         expect(response).to have_http_status 200
+        expect(json['data']).to match_response_schema("user")
       end
     end
 
