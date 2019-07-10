@@ -126,6 +126,7 @@ module Api::V1
 
     def create
       @comment = @task.comments.new(comment_params.merge(user_id: current_user.id))
+      authorize @comment
       if @comment.save!
         render json: serialized_object(@comment), status: 201
       else
@@ -134,6 +135,7 @@ module Api::V1
     end
 
     def destroy
+      authorize @comment
       if @comment.destroy
         head :no_content, status: :ok
       else

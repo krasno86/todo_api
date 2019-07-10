@@ -2,6 +2,7 @@ require 'pundit/matchers'
 require 'rails_helper'
 require 'rspec-rails'
 require 'pundit/rspec'
+require 'json_matchers/rspec'
 
 RSpec.configure do |config|
   config.expect_with :rspec do |expectations|
@@ -15,4 +16,5 @@ RSpec.configure do |config|
   config.shared_context_metadata_behavior = :apply_to_host_groups
 
   config.include Request::JsonHelpers
+  config.include JsonSpec::Helpers
 end

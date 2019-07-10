@@ -27,7 +27,10 @@ RSpec.describe 'sign_up ', type: :request do
                  uid: 'dy45ry4'
              }
       }
-      it { expect(response).to have_http_status 200 }
+      it 'status 200 and valid user' do
+        expect(response).to have_http_status 200
+        expect(json['data']).to match_response_schema("user")
+      end
     end
   end
 

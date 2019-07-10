@@ -14,13 +14,14 @@ RSpec.describe Comment, type: :request do
 
     context 'authorized user to index' do
       before {
-        3.times {create(:comment, user: user, task: task)}
+        2.times {create(:comment, user: user, task: task)}
         get "/api/v1/projects/#{project.id}/tasks/#{task.id}/comments", headers: user.create_new_auth_token
       }
       it { expect(response).to have_http_status 200 }
       it 'show comments' do
-        expect(json['data'].length).to eq 3
+        expect(json['data'].length).to eq 2
         expect(json['data'][0]['attributes'].keys).to contain_exactly(*%w[text file])
+        expect(json['data'][0]).to match_response_schema("comment")
       end
     end
 

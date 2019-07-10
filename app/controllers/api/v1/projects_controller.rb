@@ -141,7 +141,7 @@ module Api::V1
     before_action :set_project, only: [:show, :update, :destroy]
 
     def index
-      @projects = current_user.projects.all.order("created_at DESC")
+      @projects = current_user.projects.order("created_at DESC")
       render json: ProjectSerializer.new(@projects).serialized_json, status: 200
     end
 

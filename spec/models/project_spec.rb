@@ -16,8 +16,8 @@ RSpec.describe Project, type: :model do
   end
 
   describe 'validation' do
-    let(:user) { build(:user) }
-    let(:project) { build(:project, user: user) }
+    let(:user)            { build(:user) }
+    let(:project)         { build(:project, user: user) }
     let(:invalid_project) { build(:project, name: '') }
 
     it do 'with valid params'
@@ -25,6 +25,21 @@ RSpec.describe Project, type: :model do
     end
     it do 'with blank name'
       expect(invalid_project).not_to be_valid
+    end
+  end
+
+  context "#to_json" do
+    let(:user)    { create(:user) }
+    let(:project) { create(:project, name: 'bla bla', user: user) }
+
+    it "includes name" do
+      name = %({"name":"bla bla"})
+      expect(project.to_json).to be_json_eql(name).excluding("user_id")
+    end
+
+    it "includes the ID" do
+      expect(project.to_json).to have_json_path("id")
+      expect(project.to_json).to have_json_type(Integer).at_path("id")
     end
   end
 end

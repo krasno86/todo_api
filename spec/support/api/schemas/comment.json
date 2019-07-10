@@ -1,0 +1,30 @@
+{
+  "data": {
+    "id": { "type": "integer" },
+    "required": ["comment"],
+    "type": "object",
+    "attributes": {
+      "id": { "type": "integer" },
+      "text": { "type": "text" },
+      "file": { "type": "file" }
+    },
+    "relationships": {
+      "task": {
+        "data": [
+          {
+            "id": { "type": "integer" },
+            "type": { "type": "string" }
+          }
+        ]
+      },
+      "user": {
+        "data": [
+          {
+            "id": { "type": "integer" },
+            "type": { "type": "string" }
+          }
+        ]
+      }
+    }
+  }
+}
