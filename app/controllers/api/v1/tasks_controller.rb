@@ -168,7 +168,7 @@ module Api::V1
     end
 
     def destroy
-      if Task.destroy
+      if @task.destroy
         head :no_content, status: :ok
       else
         render json: @task.errors, status: :unprocessable_entity
@@ -182,11 +182,13 @@ module Api::V1
     end
 
     def set_project
-      @project = Project.find(params[:project_id])
+      @project = current_user.projects.find(params[:project_id])
+      head(:not_found) if @project.nil?
     end
 
     def set_task
       @task = Task.find(params[:id])
+      head(:not_found) if @task.nil?
     end
   end
 end

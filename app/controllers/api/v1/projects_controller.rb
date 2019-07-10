@@ -141,7 +141,7 @@ module Api::V1
     before_action :set_project, only: [:show, :update, :destroy]
 
     def index
-      @projects = authorize current_user.projects.all.order("created_at DESC")
+      @projects = current_user.projects.all.order("created_at DESC")
       render json: ProjectSerializer.new(@projects).serialized_json, status: 200
     end
 
@@ -150,7 +150,8 @@ module Api::V1
     end
 
     def create
-      @project = authorize current_user.projects.new(project_params)
+      @project = current_user.projects.new(project_params)
+      authorize @project
       if @project.save!
         render json: serialized_object(@project), status: 201
       else
@@ -181,7 +182,9 @@ module Api::V1
     end
 
     def set_project
-      @project = authorize Project.find(params[:id])
+      @project = current_user.projects.find(params[:id])
+      authorize @project
+      head(:not_found) if @project.nil?
     end
   end
 end

@@ -17,7 +17,6 @@ RSpec.describe Project, type: :request do
       }
       it { expect(response).to have_http_status 200 }
       it 'show all projects' do
-        # p JSON.pretty_generate(json)
         expect(json['data'].length).to eq 3
         expect(json['data'][0]['attributes'].keys).to contain_exactly(*%w[name])
       end
@@ -43,10 +42,9 @@ RSpec.describe Project, type: :request do
     end
 
     context 'DELETE' do
-      let(:user1) { create(:user, email: 'wgt3wgf@dgd.com') }
       before {
         delete "/api/v1/projects/#{project.id}",
-             headers: user1.create_new_auth_token
+             headers: user.create_new_auth_token
       }
       it { expect(response).to have_http_status 204 }
     end

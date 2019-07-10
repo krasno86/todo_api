@@ -116,10 +116,11 @@ module Api::V1
     end
 
     before_action :authenticate_user!
-    before_action :set_task, only: [:index, :create, :destroy]
+    before_action :set_task, only: [:index, :create]
+    before_action :set_comment, only: [:destroy]
 
     def index
-      @comments = @task.comments.order("created_at ASC")
+      @comments = @task.comments.order('created_at ASC')
       render json: CommentSerializer.new(@comments).serialized_json, status: 200
     end
 
@@ -133,7 +134,7 @@ module Api::V1
     end
 
     def destroy
-      if Comment.destroy
+      if @comment.destroy
         head :no_content, status: :ok
       else
         render json: @comment.errors, status: :unprocessable_entity
@@ -148,6 +149,12 @@ module Api::V1
 
     def set_task
       @task = Task.find(params[:task_id])
+      head(:not_found) if @task.nil?
+    end
+
+    def set_comment
+      @comment = Comment.find(params[:id])
+      head(:not_found) if @comment.nil?
     end
   end
 end
